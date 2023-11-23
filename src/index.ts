@@ -14,5 +14,16 @@ const many = <T>(x: NEA.NonEmptyArray<T>): OneOrMany<T> =>
     fromList([3, 4, 5]) // => O.some({ tag: "Many", value: [3, 4, 5] })
 */
 export const fromList = <T>(x: T[]): O.Option<OneOrMany<T>> => {
-  return O.some(one(x[1]))
+  return pipe(
+    x,
+    NEA.fromArray,
+    O.map(
+      (y) => {
+        if(y.length === 1) {
+          return one(y[0])
+        } else {
+          return many(y)
+        }
+      })
+  )
 }
