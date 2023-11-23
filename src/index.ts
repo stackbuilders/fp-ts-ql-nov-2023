@@ -1,29 +1,18 @@
+import { pipe } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
-import * as RNEA from 'fp-ts/ReadonlyNonEmptyArray'
+import * as NEA from 'fp-ts/NonEmptyArray'
 
-type OneOrMany<T> = "One" | "Many"
+type OneOrMany<T> = { tag: "One", value: T } | { tag: "Many", value: NEA.NonEmptyArray<T> }
 
-/** Smart constructor for single element
+const one = <T>(x: T): OneOrMany<T> => ({ tag: "One", value: x })
+const many = <T>(x: NEA.NonEmptyArray<T>): OneOrMany<T> => 
+  ({ tag: "Many", value: x })
 
-    one(3) // => { tag: "One", value: 3 }
-    one("tres") // => { tag: "One", value: "tres" }
-
-*/
-export const one = <T>(x: T): OneOrMany<T> => "One"
-
-/** Smart constructor for a list of elements
-
-    many([]) // => O.none
-    many([1,2,3]) // => { tag: "Many", value: [1,2,3] }
-
-*/
-export const many = <T>(x: T[]): O.Option<OneOrMany<T>> => O.some("Many")
-
-/** Build OneOrMany from a list
-
+/* Build OneOrMany from a list
     fromList([]) // => O.none
-    fromList([3]) // => { tag: "One", value: 3 }
-    fromList([3, 4, 5]) // => { tag: "Many", value: [3, 4, 5] }
-
+    fromList([3]) // => O.some({ tag: "One", value: 3 })
+    fromList([3, 4, 5]) // => O.some({ tag: "Many", value: [3, 4, 5] })
 */
-export const fromList = <T>(x: T[]): O.Option<OneOrMany<T>> => O.some("One")
+export const fromList = <T>(x: T[]): O.Option<OneOrMany<T>> => {
+  return O.some(one(x[1]))
+}

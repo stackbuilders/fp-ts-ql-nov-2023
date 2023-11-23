@@ -2,7 +2,7 @@ import type {Config} from 'jest';
 
 const config: Config = {
   verbose: true,
-  testMatch: ["**/*.doctest.ts"],
+  testMatch: ["**/*.test.ts"],
   preset: 'ts-jest',
   testEnvironment: 'node',
 };
