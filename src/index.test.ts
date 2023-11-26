@@ -64,13 +64,13 @@ describe("getEq instance", () => {
     it("returns False for two Many's with not equal strings inside", () => {
       expect(
         eqStringOM.equals(OM.many(exampleOneNE), OM.many(exampleTwoNE))
-      ).toBeTruthy()
+      ).toBeFalsy()
     })
 
     it("returns False if one is one and the other is many", () => {
       expect(
         eqStringOM.equals(OM.one("hey"), OM.many(exampleOneNE))
-      ).toBeTruthy()
+      ).toBeFalsy()
     })
   })
 })

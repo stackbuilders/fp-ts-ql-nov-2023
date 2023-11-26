@@ -29,7 +29,13 @@ export const fromList = <T>(x: T[]): O.Option<OneOrMany<T>> => {
   )
 }
 
-/* Checks equality of OneOrMany */
+/* Checks equality of OneOrMany
+
+    Tips:
+      - Use NEA.getEq
+*/
 export const getEq = <T>(eqInner: Eq<T>): Eq<OneOrMany<T>> => ({
-  equals: (x, y) => undefined as unknown as boolean,
+  equals: (x, y) => {
+    return undefined as unknown as boolean
+  },
 })
