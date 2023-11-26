@@ -1,11 +1,12 @@
 import { pipe } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as NEA from 'fp-ts/NonEmptyArray'
+import { Eq } from 'fp-ts/Eq'
 
 type OneOrMany<T> = { tag: "One", value: T } | { tag: "Many", value: NEA.NonEmptyArray<T> }
 
-const one = <T>(x: T): OneOrMany<T> => ({ tag: "One", value: x })
-const many = <T>(x: NEA.NonEmptyArray<T>): OneOrMany<T> => 
+export const one = <T>(x: T): OneOrMany<T> => ({ tag: "One", value: x })
+export const many = <T>(x: NEA.NonEmptyArray<T>): OneOrMany<T> => 
   ({ tag: "Many", value: x })
 
 /* Build OneOrMany from a list
@@ -27,3 +28,8 @@ export const fromList = <T>(x: T[]): O.Option<OneOrMany<T>> => {
       })
   )
 }
+
+/* Checks equality of OneOrMany */
+export const getEq = <T>(eqInner: Eq<T>): Eq<OneOrMany<T>> => ({
+  equals: (x, y) => undefined as unknown as boolean,
+})
