@@ -29,13 +29,14 @@ export const fromList = <T>(x: T[]): O.Option<OneOrMany<T>> => {
   )
 }
 
-/* Checks equality of OneOrMany
-
-    Tips:
-      - Use NEA.getEq
-*/
+/* Checks equality of OneOrMany */
 export const getEq = <T>(eqInner: Eq<T>): Eq<OneOrMany<T>> => ({
   equals: (x, y) => {
-    return undefined as unknown as boolean
+    if(x.tag === "One" && y.tag === "One") {
+      return eqInner.equals(x.value, y.value)
+    } else if(x.tag === "Many" && y.tag === "Many") {
+      return NEA.getEq(eqInner).equals(x.value, y.value)
+    }
+    return false
   },
 })
