@@ -43,5 +43,10 @@ export const getEq = <T>(eqInner: Eq<T>): Eq<OneOrMany<T>> => ({
 
 /* Checks equality of OneOrMany */
 export const map = <A, B>(f: (a: A) => B) => (a: OneOrMany<A>): OneOrMany<B> => {
-  return undefined as unknown as OneOrMany<B>
+  switch (a.tag) {
+    case "One":
+      return one(f(a.value))
+    case "Many":
+      return pipe(a.value, NEA.map(f), many)
+  }
 }
