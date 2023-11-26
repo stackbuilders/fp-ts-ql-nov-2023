@@ -40,3 +40,8 @@ export const getEq = <T>(eqInner: Eq<T>): Eq<OneOrMany<T>> => ({
     return false
   },
 })
+
+/* Checks equality of OneOrMany */
+export const map = <A, B>(f: (a: A) => B) => (a: OneOrMany<A>): OneOrMany<B> => {
+  return undefined as unknown as OneOrMany<B>
+}

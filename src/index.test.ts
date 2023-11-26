@@ -74,3 +74,30 @@ describe("getEq instance", () => {
     })
   })
 })
+
+describe("map", () => {
+  const eqStringOM = OM.getEq(eqString)
+  const f = (x: string) => x + " " + x;
+
+  it("applies f to value inside one", () => {
+    expect(
+      pipe(
+        OM.one("hello"),
+        OM.map(f),
+        (x) => eqStringOM.equals(x, OM.one("hello hello")),
+      )
+    ).toBeTruthy()
+  })
+
+  it("applies f to value inside many", () => {
+    const actualOM = pipe(["hey", "you"], A.append("!"), OM.many)
+    const expectedOM = pipe(["hey hey", "you you"], A.append("! !"), OM.many)
+    expect(
+      pipe(
+        actualOM,
+        OM.map(f),
+        (x) => eqStringOM.equals(x, expectedOM),
+      )
+    ).toBeTruthy()
+  })
+})
