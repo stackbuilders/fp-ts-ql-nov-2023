@@ -50,3 +50,9 @@ export const map = <A, B>(f: (a: A) => B) => (a: OneOrMany<A>): OneOrMany<B> => 
       return pipe(a.value, NEA.map(f), many)
   }
 }
+
+/* Request ecuadorian tramites */
+const URL = "https://www.gob.ec/api/v1/tramites"
+export const printTramitesEC = (): void => {
+  console.log("TODO")
+}
