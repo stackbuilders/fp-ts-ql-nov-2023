@@ -62,7 +62,20 @@ type Tramite = {
 /* Request ecuadorian tramites */
 const URL = "https://www.gob.ec/api/v1/tramites"
 export const printTramitesEC = (): void => {
-  console.log("TODO")
+  pipe(
+    TE.tryCatch(
+      async () => {
+        const resp = await axios.get<Tramite[]>(URL);
+        if (resp.status === 200) {
+          return resp.data
+        } else {
+          throw new Error(`Failed to get ${URL} with status ${resp.status}`)
+        }
+      }, (x) => console.error((x as Error).message),
+    ),
+    TE.map((x) => x.forEach((y) => console.log(y.nombre))),
+  )
+  ()
 }
 
 printTramitesEC();
