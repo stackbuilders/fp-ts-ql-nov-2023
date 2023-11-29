@@ -2,6 +2,9 @@ import { pipe } from 'fp-ts/function'
 import * as O from 'fp-ts/Option'
 import * as NEA from 'fp-ts/NonEmptyArray'
 import { Eq } from 'fp-ts/Eq'
+import * as TE from 'fp-ts/TaskEither'
+
+import axios from 'axios';
 
 type OneOrMany<T> = { tag: "One", value: T } | { tag: "Many", value: NEA.NonEmptyArray<T> }
 
@@ -51,8 +54,15 @@ export const map = <A, B>(f: (a: A) => B) => (a: OneOrMany<A>): OneOrMany<B> => 
   }
 }
 
+type Tramite = {
+  tramite_id: string;
+  nombre: string;
+}
+
 /* Request ecuadorian tramites */
 const URL = "https://www.gob.ec/api/v1/tramites"
 export const printTramitesEC = (): void => {
   console.log("TODO")
 }
+
+printTramitesEC();
